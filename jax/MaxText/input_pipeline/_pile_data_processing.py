@@ -215,10 +215,10 @@ def record_file_and_step(step, config, train_input):  # lsp
     # __import__('ipdb').set_trace()
     if jax.process_index() == 0:
       try:
-        with save_newest_path.open('w') as f1:
+        with save_newest_path.open('w', encoding='utf-8') as f1:
             json.dump(meta_dict, f1)
 
-        with save_path.open('w') as f2:
+        with save_path.open('w', encoding='utf-8') as f2:
             json.dump(meta_dict, f2)
       except Exception as error:
         print(f'Write meta dict error: {error}')
@@ -327,7 +327,7 @@ def extract_train_skip_step(job_log_dir, step, only_eval=False):  # lsp
         skip_file_and_step_path = model_dir / SKIP_STEP_NAME
     max_logging.log(f"model_dir: {model_dir}")
     try:
-        with skip_file_and_step_path.open('r') as f:
+        with skip_file_and_step_path.open('r', encoding='utf-8') as f:
             meta_dict = json.load(f)
         max_logging.log(f"Load skip_file_and_step_path: ’{skip_file_and_step_path}‘ Finished.......")
     except:
@@ -340,7 +340,7 @@ def extract_train_skip_step(job_log_dir, step, only_eval=False):  # lsp
         if 'gs:' not in str(back_meta_dict_dir):
           os.makedirs(back_meta_dict_dir, exist_ok=True)
         back_meta_dict_path = back_meta_dict_dir /f'{meta_dict.get("checkpoint_step", None)}.json'
-        with back_meta_dict_path.open('w') as f1:
+        with back_meta_dict_path.open('w', encoding='utf-8') as f1:
             json.dump(meta_dict, f1)
     return meta_dict
 
